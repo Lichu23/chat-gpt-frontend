@@ -5,7 +5,11 @@ import { IoMdSend } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import ChatItem from "../componentes/chat/ChatItem";
 import { useAuth } from "../context/AuthContext";
-import { deleteUserChats, getUserChats, sendChatRequest } from "../helpers/api-communicator";
+import {
+  deleteUserChats,
+  getUserChats,
+  sendChatRequest,
+} from "../helpers/api-communicator";
 
 type Message = {
   role: "user" | "assistant ";
@@ -35,44 +39,44 @@ export const Chat = () => {
 
   const handleDeleteChats = async () => {
     try {
-      toast.loading("Deleting Chats", {id: "deletechats"})
-      await deleteUserChats()
-      setChatMessages([])
-      toast.success("Deleted Chats Successfully", {id: "deletechats"})
-
+      toast.loading("Deleting Chats", { id: "deletechats" });
+      await deleteUserChats();
+      setChatMessages([]);
+      toast.success("Deleted Chats Successfully", { id: "deletechats" });
     } catch (error) {
-      console.log(error)
-      toast.error("Deleting Chats Failed", {id: "deletechats"})
-      
+      console.log(error);
+      toast.error("Deleting Chats Failed", { id: "deletechats" });
     }
-  }
+  };
 
   useLayoutEffect(() => {
-    if(auth?.isLoggedIn && auth.user) {
-      toast.loading("Loading Chats...", {id: "loadchats"})
-      getUserChats().then((data) => {
-        setChatMessages([...data.chats])
-        toast.success("Succesfully loaded chats", {id: "loadchats"})
-      }).catch(err => {
-        console.log(err)
-        toast.error("Loading Failed", {id: "loadchats"})
-      })
+    if (auth?.isLoggedIn && auth.user) {
+      toast.loading("Loading Chats", { id: "loadchats" });
+      getUserChats()
+        .then((data) => {
+          setChatMessages([...data.chats]);
+          toast.success("Successfully loaded chats", { id: "loadchats" });
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Loading Failed", { id: "loadchats" });
+        });
     }
-  }, [auth])
+  }, [auth]);
 
   useEffect(() => {
-    if(!auth?.isLoggedIn) {
-      return navigate("/login")
-      }
-  }, [auth])
+    if (!auth?.isLoggedIn) {
+      return navigate("/login");
+    }
+  }, [auth]);
 
   return (
     <Box
       sx={{
         display: "flex",
-        justifyContent:"center",
+        justifyContent: "center",
         width: "100%",
-        height:"100%",
+        height: "100%",
         mt: 3,
         gap: 3,
       }}
@@ -83,7 +87,7 @@ export const Chat = () => {
           flex: { md: 0.8, xs: 1, sm: 1 },
           flexDirection: "column",
           flexGrow: 1,
-          height:"100%",
+          height: "100%",
           px: 3,
         }}
       >
@@ -97,9 +101,10 @@ export const Chat = () => {
           }}
         >
           Model - GPT 3.5 Turbo
-        </Typography> <span><Button onClick={handleDeleteChats}>Clear Chat</Button></span>
-
-
+        </Typography>{" "}
+        <span>
+          <Button onClick={handleDeleteChats}>Clear Chat</Button>
+        </span>
         <Box
           sx={{
             width: "100%",
